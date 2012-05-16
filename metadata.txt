@@ -1,0 +1,19 @@
+[general]
+name = TauDEM SEXTANTE Provider
+description = DEM tools for the extraction and analysis of hydrologic information
+category = Raster
+version = 1.0.0
+qgisMinimumVersion = 1.8.0
+
+icon = icons/taudem.png
+
+authorName = Alexander Bruy
+
+tags = raster, analysis, SEXTANTE
+
+homepage =
+tracker = http://hub.qgis.org/projects/taudem_sextante
+repository =
+
+experimental = True
+deprecated = False
