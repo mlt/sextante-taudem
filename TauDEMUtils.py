@@ -51,49 +51,15 @@ class TauDEMUtils:
         return os.path.join(os.path.dirname(__file__), "description")
 
     @staticmethod
-    def executeSaga(progress):
-        if SextanteUtils.isWindows():
-            command = ["cmd.exe", "/C ", SagaUtils.sagaBatchJobFilename()]
-        else:
-            os.chmod(SagaUtils.sagaBatchJobFilename(), stat.S_IEXEC | stat.S_IREAD | stat.S_IWRITE)
-            command = [SagaUtils.sagaBatchJobFilename()]
-        loglines = []
-        loglines.append("SAGA execution console output")
-        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE,stderr=subprocess.STDOUT, universal_newlines=True).stdout
-        for line in iter(proc.readline, ""):
-            if "%" in line:
-                s = "".join([x for x in line if x.isdigit()])
-                progress.setPercentage(int(s))
-            else:
-                loglines.append(line)
-        SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
-
-    @staticmethod
-    def executeOtb(commands, progress):
-        loglines = []
-        loglines.append("OTB execution console output")
-        os.putenv('ITK_AUTOLOAD_PATH', OTBUtils.otbLibPath())
-        fused_command = ''.join(['"%s" ' % c for c in commands])
-        proc = subprocess.Popen(fused_command, shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE,stderr=subprocess.STDOUT, universal_newlines=True).stdout
-        for line in iter(proc.readline, ""):
-            if "[*" in line:
-                idx = line.find("[*")
-                perc = int(line[idx-4:idx-2].strip(" "))
-                if perc !=0:
-                    progress.setPercentage(perc)
-            else:
-                loglines.append(line)
-        SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
-
-    @staticmethod
     def executeTauDEM(command, progress):
         loglines = []
         loglines.append("TauDEM execution console output")
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True).stdout
         for line in iter(proc.readline, ""):
-            if "%" in line:
-                s = "".join([x for x in line if x.isdigit()])
-                progress.setPercentage(int(s))
-            else:
-                loglines.append(line)
+            loglines.append(line)
+            #~ if "%" in line:
+                #~ s = "".join([x for x in line if x.isdigit()])
+                #~ progress.setPercentage(int(s))
+            #~ else:
+                #~ loglines.append(line)
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)

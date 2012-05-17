@@ -58,3 +58,18 @@ class TauDEMAlgorithmProvider(AlgorithmProvider):
     def unload(self):
         AlgorithmProvider.unload(self)
         SextanteConfig.removeSetting(TauDEMUtils.TAUDEM_FOLDER)
+
+    def _loadAlgorithms(self):
+      self.algs = self.preloadedAlgs
+
+    def createAlgsList(self):
+      self.preloadedAlgs = []
+      folder = TauDEMUtils.taudemDescriptionPath()
+      for descriptionFile in os.listdir(folder):
+          try:
+              alg = TauDEMAlgorithm(os.path.join(folder, descriptionFile))
+              if alg.name.strip() != "":
+                  self.preloadedAlgs.append(alg)
+          except Exception:
+              SextanteLog.addToLog(SextanteLog.LOG_ERROR, "Could not open TauDEM algorithm: " + descriptionFile)
+
