@@ -101,8 +101,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
             raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
 
         commands = []
-        commands.append("mpiexec -n")
-
+        commands.append("mpiexec")
 
         for param in self.parameters:
             if param.value == None or param.value == "":
@@ -126,5 +125,5 @@ class TauDEMAlgorithm(GeoAlgorithm):
         loglines.append("TauDEM execution command")
         for line in commands:
             loglines.append(line)
-        SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
-        TauDEMUtils.executeOtb(commands, progress)
+        #SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
+        TauDEMUtils.executeTauDEM(commands, progress)
