@@ -48,7 +48,7 @@ class TauDEMUtils:
 
     @staticmethod
     def taudemDescriptionPath():
-        return os.path.join(os.path.dirname(__file__), "description")
+        return os.path.normpath(os.path.join(os.path.dirname(__file__), "description"))
 
     @staticmethod
     def executeTauDEM(command, progress):
@@ -57,9 +57,4 @@ class TauDEMUtils:
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True).stdout
         for line in iter(proc.readline, ""):
             loglines.append(line)
-            #~ if "%" in line:
-                #~ s = "".join([x for x in line if x.isdigit()])
-                #~ progress.setPercentage(int(s))
-            #~ else:
-                #~ loglines.append(line)
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)

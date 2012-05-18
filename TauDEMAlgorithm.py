@@ -66,7 +66,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
         self.defineCharacteristicsFromFile()
 
     def getCopy(self):
-        newone = SagaAlgorithm(self.descriptionFile)
+        newone = TauDEMAlgorithm(self.descriptionFile)
         newone.provider = self.provider
         return newone
 
@@ -101,7 +101,8 @@ class TauDEMAlgorithm(GeoAlgorithm):
             raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
 
         commands = []
-        commands.append(path + os.sep + self.cmdName)
+        commands.append("mpiexec -n")
+
 
         for param in self.parameters:
             if param.value == None or param.value == "":

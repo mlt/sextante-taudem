@@ -32,15 +32,17 @@ import os
 from PyQt4.QtGui import *
 
 from sextante.core.AlgorithmProvider import AlgorithmProvider
-from sextante.core.SextanteConfig import SextanteConfig, Setting
+from sextante.core.SextanteConfig import SextanteConfig
+from sextante.core.SextanteConfig import Setting
 from sextante.core.SextanteLog import SextanteLog
 
+from sextante_taudem.TauDEMAlgorithm import TauDEMAlgorithm
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class TauDEMAlgorithmProvider(AlgorithmProvider):
     def __init__(self):
         AlgorithmProvider.__init__(self)
-        #self.createAlgsList()
+        self.createAlgsList()
 
     def getDescription(self):
         return "TauDEM (hydrologic analysis)"
