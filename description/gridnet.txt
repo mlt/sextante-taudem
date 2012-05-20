@@ -1,0 +1,11 @@
+Grid Network
+gridnet
+Basic Grid Analysis tools
+ParameterNumber|-n|Number of Processes|1|99|2
+ParameterRaster|-p|D8 Flow Direction Grid|False
+ParameterVector|-o|Outlets Shapefile|0|True
+ParameterRaster|-mask|Mask Grid|True
+ParameterNumber|-tresh|Mask Threshold Value|1|1000|100
+OutputRaster|-gord|Strahler Network Order Grid
+OutputRaster|-plen|Longest Upslope Length Grid
+OutputRaster|-tlen|Total Upslope Length Grid
