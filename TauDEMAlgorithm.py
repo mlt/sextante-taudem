@@ -39,22 +39,23 @@ from sextante.core.SextanteLog import SextanteLog
 from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
-from sextante.core.QGisLayers import QGisLayers
-from sextante.core.LayerExporter import LayerExporter
+#from sextante.core.QGisLayers import QGisLayers
+#from sextante.core.LayerExporter import LayerExporter
 
-from sextante.parameters.ParameterTable import ParameterTable
-from sextante.parameters.ParameterMultipleInput import ParameterMultipleInput
+from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
 from sextante.parameters.ParameterVector import ParameterVector
 from sextante.parameters.ParameterBoolean import ParameterBoolean
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterSelection import ParameterSelection
+from sextante.parameters.ParameterString import ParameterString
+#from sextante.parameters.ParameterTable import ParameterTable
+#from sextante.parameters.ParameterMultipleInput import ParameterMultipleInput
+#from sextante.parameters.ParameterSelection import ParameterSelection
 
-from sextante.outputs.OutputTable import OutputTable
-from sextante.outputs.OutputRaster import OutputRaster
-from sextante.outputs.OutputVector import OutputVector
 from sextante.outputs.OutputFactory import OutputFactory
+from sextante.outputs.OutputRaster import OutputRaster
+#from sextante.outputs.OutputTable import OutputTable
+#from sextante.outputs.OutputVector import OutputVector
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
@@ -106,6 +107,11 @@ class TauDEMAlgorithm(GeoAlgorithm):
         for param in self.parameters:
             if param.value == None or param.value == "":
                 continue
+            if isinstance(param, ParameterNumber):
+                commands.append(param.name)
+                commands.append(param.value)
+                if param.name == "-n":
+                    commands.append(path + os.sep + self.cmdName)
             if isinstance(param, (ParameterRaster, ParameterVector)):
                 commands.append(param.name)
                 commands.append(param.value)
@@ -113,7 +119,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
                 if param.value:
                     commands.append(param.name)
                     commands.append(str(param.value).lower())
-            else:
+            elif isinstance(param, ParameterString):
                 commands.append(param.name)
                 commands.append(str(param.value))
 
