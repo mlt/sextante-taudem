@@ -109,7 +109,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
                 continue
             if isinstance(param, ParameterNumber):
                 commands.append(param.name)
-                commands.append(param.value)
+                commands.append(str(param.value))
                 if param.name == "-n":
                     commands.append(path + os.sep + self.cmdName)
             if isinstance(param, (ParameterRaster, ParameterVector)):
@@ -125,11 +125,11 @@ class TauDEMAlgorithm(GeoAlgorithm):
 
         for out in self.outputs:
             commands.append(out.name)
-            commands.append(out.value);
+            commands.append(out.value)
 
         loglines = []
         loglines.append("TauDEM execution command")
         for line in commands:
             loglines.append(line)
-        #SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
+        SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
         TauDEMUtils.executeTauDEM(commands, progress)
