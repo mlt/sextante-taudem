@@ -41,8 +41,8 @@ clean:
 	rm -f *.zip
 
 package:
-	cd .. && rm -f *.zip && zip -r taudem_sextante.experimental.zip taudem_sextante -x \*.pyc \*.ts \*.ui \*.qrc \*.pro \*~ \*.git\* \*Makefile*
-	mv ../taudem_sextante.experimental.zip .
+	cd .. && rm -f *.zip && zip -r sextante_taudem.experimental.zip sextante_taudem -x \*.pyc \*.ts \*.ui \*.qrc \*.pro \*~ \*.git\* \*Makefile*
+	mv ../sextante_taudem.experimental.zip .
 
 upload:
-	plugin_uploader.py taudem_sextante.experimental.zip
+	plugin_uploader.py sextante_taudem.experimental.zip
