@@ -1,0 +1,15 @@
+Stream Reach and Watershed
+streamnet
+Stream Network Analysis tools
+ParameterNumber|-n|Number of Processes|1|99|2
+ParameterRaster|-fel|Pit Filled Elevation Grid|False
+ParameterRaster|-p|D8 Flow Direction Grid|False
+ParameterRaster|-ad8|D8 Drainage Area|False
+ParameterRaster|-src|Stream Raster Grid|False
+ParameterVector|-o|Outlets Shapefile as Network Nodes|0|True
+ParameterBoolean|-sw|Delineate Single Watershed|False
+OutputRaster|-ord|Output Stream Order Grid|
+OutputRaster|-w|Output_Watershed_Grid|
+OutputVector|-net|Output Stream Reach Shapefile|
+OutputFile|-tree|Output Network Connectivity Tree|
+OutputFile|-coord|Output Network Coordinates|
