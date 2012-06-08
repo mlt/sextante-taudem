@@ -1,7 +1,0 @@
-Peuker Douglas
-peukerdouglas
-Stream Network Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
-ParameterRaster|-fel|Input Elevation Grid|False
-ParameterString|-par|Smooth parameters (space delimited)|0.4 0.1 0.05
-OutputRaster|-ss|Stream Source Grid

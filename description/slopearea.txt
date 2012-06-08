@@ -1,8 +1,0 @@
-Slope Area Combination
-slopearea
-Stream Network Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
-ParameterRaster|-slp|Input Slope Grid|False
-ParameterRaster|-sca|Input Area Grid|False
-ParameterString|-par|Slope and Area Exponents (space delimited)|2 1
-OutputRaster|-sa|Output Slope Area Grid
