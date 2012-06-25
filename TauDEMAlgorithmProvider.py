@@ -39,6 +39,11 @@ from sextante.core.SextanteLog import SextanteLog
 from sextante_taudem.TauDEMAlgorithm import TauDEMAlgorithm
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
+from sextante_taudem.peukerdouglas import PeukerDouglas
+from sextante_taudem.slopearea import SlopeArea
+from sextante_taudem.lengtharea import LengthArea
+from sextante_taudem.dropanalysis import DropAnalysis
+
 class TauDEMAlgorithmProvider(AlgorithmProvider):
     def __init__(self):
         AlgorithmProvider.__init__(self)
@@ -75,3 +80,7 @@ class TauDEMAlgorithmProvider(AlgorithmProvider):
           except Exception:
               SextanteLog.addToLog(SextanteLog.LOG_ERROR, "Could not open TauDEM algorithm: " + descriptionFile)
 
+      self.preloadedAlgs.append(PeukerDouglas())
+      self.preloadedAlgs.append(SlopeArea())
+      self.preloadedAlgs.append(LengthArea())
+      self.preloadedAlgs.append(DropAnalysis())

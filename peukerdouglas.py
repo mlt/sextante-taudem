@@ -29,10 +29,7 @@
 
 import os
 
-from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-
-from qgis.core import *
 
 from sextante.core.GeoAlgorithm import GeoAlgorithm
 from sextante.core.SextanteLog import SextanteLog
@@ -46,50 +43,36 @@ from sextante.parameters.ParameterVector import ParameterVector
 from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
 from sextante.parameters.ParameterString import ParameterString
-#from sextante.parameters.ParameterSelection import ParameterSelection
 
 from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
-from sextante.outputs.OutputVector import OutputVector
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
-class TauDEMAlgorithm(GeoAlgorithm):
+class PeukerDouglas(GeoAlgorithm):
+    PROCESS_NUMBER = "PROCESS_NUMBER"
+    ELEVATION_GRID = "ELEVATION_GRID"
+    CENTER_WEIGHT = "CENTER_WEIGHT"
+    SIDE_WEIGHT = "SIDE_WEIGHT"
+    DIAGONAL_WEIGHT = "DIAGONAL_WEIGHT"
 
-    def __init__(self, descriptionfile):
-        GeoAlgorithm.__init__(self)
-        self.descriptionFile = descriptionfile
-        self.defineCharacteristicsFromFile()
-
-    def getCopy(self):
-        newone = TauDEMAlgorithm(self.descriptionFile)
-        newone.provider = self.provider
-        return newone
+    STREAM_SOURCE_GRID = "STREAM_SOURCE_GRID"
 
     def getIcon(self):
         return  QIcon(os.path.dirname(__file__) + "/icons/taudem.png")
 
-    def defineCharacteristicsFromFile(self):
-        lines = open(self.descriptionFile)
-        line = lines.readline().strip("\n").strip()
-        self.name = line
-        line = lines.readline().strip("\n").strip()
-        self.cmdName = line
-        line = lines.readline().strip("\n").strip()
-        self.group = line
-        while line != "":
-          try:
-              line = line.strip("\n").strip()
-              if line.startswith("Parameter"):
-                  param = ParameterFactory.getFromString(line)
-                  self.addParameter(param)
-              else:
-                  self.addOutput(OutputFactory.getFromString(line))
-              line = lines.readline().strip("\n").strip()
-          except Exception, e:
-              SextanteLog.addToLog(SextanteLog.LOG_ERROR, "Could not load TauDEM algorithm: " + self.descriptionFile + "\n" + line)
-              raise e
-        lines.close()
+    def defineCharacteristics(self):
+        self.name = "Peuker Douglas"
+        self.cmdName = "peukerdouglas"
+        self.group = "Stream Network Analysis tools"
+
+        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
+        self.addParameter(ParameterRaster(self.ELEVATION_GRID, "Input Elevation Grid", False))
+        self.addParameter(ParameterNumber(self.CENTER_WEIGHT, "Center Smoothing Weight", 0, None, 0.4))
+        self.addParameter(ParameterNumber(self.SIDE_WEIGHT, "Side Smoothing Weight", 0, None, 0.1))
+        self.addParameter(ParameterNumber(self.DIAGONAL_WEIGHT, "Diagonal Smoothing Weight", 0, None, 0.05))
+
+        self.addOutput(OutputRaster(self.STREAM_SOURCE_GRID, "Output Stream Source Grid"))
 
     def processAlgorithm(self, progress):
         path = TauDEMUtils.taudemPath()
@@ -98,35 +81,22 @@ class TauDEMAlgorithm(GeoAlgorithm):
 
         commands = []
         commands.append("mpiexec")
-
-        for param in self.parameters:
-            if param.value == None or param.value == "":
-                continue
-            if isinstance(param, ParameterNumber):
-                commands.append(param.name)
-                commands.append(str(param.value))
-                if param.name == "-n":
-                    commands.append(path + os.sep + self.cmdName)
-            if isinstance(param, (ParameterRaster, ParameterVector)):
-                commands.append(param.name)
-                commands.append(param.value)
-            elif isinstance(param, ParameterBoolean):
-                if param.value and str(param.value).lower() == "false":
-                    commands.append(param.name)
-                    #commands.append(str(param.value).lower())
-            elif isinstance(param, ParameterString):
-                commands.append(param.name)
-                commands.append(str(param.value))
-
-        #print "COMMAND", commands
-
-        for out in self.outputs:
-            commands.append(out.name)
-            commands.append(out.value)
+        commands.append("-n")
+        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(path + os.sep + self.cmdName)
+        commands.append("-fel")
+        commands.append(self.getParameterValue(self.ELEVATION_GRID))
+        commands.append("-par")
+        commands.append(str(self.getParameterValue(self.CENTER_WEIGHT)))
+        commands.append(str(self.getParameterValue(self.SIDE_WEIGHT)))
+        commands.append(str(self.getParameterValue(self.DIAGONAL_WEIGHT)))
+        commands.append("-ss")
+        commands.append(self.getOutputValue(self.STREAM_SOURCE_GRID))
 
         loglines = []
         loglines.append("TauDEM execution command")
         for line in commands:
             loglines.append(line)
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
+
         TauDEMUtils.executeTauDEM(commands, progress)
