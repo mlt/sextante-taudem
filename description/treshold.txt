@@ -2,7 +2,7 @@ Stream Definition By Threshold
 treshold
 Stream Network Analysis tools
 ParameterNumber|-n|Number of Processes|1|99|2
-ParameterNumber|-tresh|Threshold|1|1000|100
 ParameterRaster|-ssa|Accumulated Stream Source Grid|False
+ParameterNumber|-tresh|Threshold|1|1000|100
 ParameterRaster|-mask|Mask Grid|True
 OutputRaster|-src|Stream Raster Grid
