@@ -12,8 +12,8 @@ authorName = Alexander Bruy
 tags = raster, analysis, SEXTANTE
 
 homepage =
-tracker = http://hub.qgis.org/projects/taudem_sextante
-repository =
+tracker = http://hub.qgis.org/projects/sextante-taudem
+repository = https://github.com/alexbruy/sextante-taudem
 
 experimental = True
 deprecated = False
