@@ -40,9 +40,8 @@ from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionEx
 from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
 from sextante.parameters.ParameterVector import ParameterVector
-from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterString import ParameterString
+from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterSelection import ParameterSelection
 
 from sextante.outputs.OutputFactory import OutputFactory
@@ -51,42 +50,48 @@ from sextante.outputs.OutputFile import OutputFile
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
-class DropAnalysis(GeoAlgorithm):
+class DinfDistDown(GeoAlgorithm):
     PROCESS_NUMBER = "PROCESS_NUMBER"
+    DINF_FLOW_DIR_GRID = "DINF_FLOW_DIR_GRID"
     PIT_FILLED_GRID = "PIT_FILLED_GRID"
-    D8_CONTRIB_AREA_GRID = "D8_CONTRIB_AREA_GRID"
-    D8_FLOW_DIR_GRID = "D8_FLOW_DIR_GRID"
-    ACCUM_STREAM_SOURCE_GRID = "ACCUM_STREAM_SOURCE_GRID"
-    OUTLETS_SHAPE = "OUTLETS_SHAPE"
-    MIN_TRESHOLD = "MIN_TRESHOLD"
-    MAX_THRESHOLD = "MAX_THRESHOLD"
-    TRESHOLD_NUM = "TRESHOLD_NUM"
-    STEP_TYPE = "STEP_TYPE"
+    STREAM_GRID = "STREAM_GRID"
+    WEIGHT_PATH_GRID = "WEIGHT_PATH_GRID"
+    STAT_METHOD = "STAT_METHOD"
+    DIST_METHOD = "DIST_METHOD"
+    EDGE_CONTAM = "EDGE_CONTAM"
 
-    DROP_ANALYSIS_FILE = "DROP_ANALYSIS_FILE"
+    DIST_DOWN_GRID = "DIST_DOWN_GRID"
 
-    STEPS = ["Logarithmic", "Linear"]
+    STATISTICS = ["Minimum", "Maximum", "Average"]
+    STAT_DICT = {0:"min",
+                 1:"max",
+                 2:"ave"}
+
+    DISTANCE = ["Pythagoras", "Horizontal", "Vertical", "Surface"]
+    DIST_DICT = {0:"p",
+                 1:"h",
+                 2:"v",
+                 3:"s"}
 
     def getIcon(self):
         return  QIcon(os.path.dirname(__file__) + "/icons/taudem.png")
 
     def defineCharacteristics(self):
-        self.name = "Stream Drop Analysis"
-        self.cmdName = "dropanalysis"
-        self.group = "Stream Network Analysis tools"
+        self.name = "D-Infinity Distance Down"
+        self.cmdName = "dinfdistdown"
+        self.group = "Specialized Grid Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
 
-        self.addParameter(ParameterRaster(self.D8_CONTRIB_AREA_GRID, "D8 Contributing Area Grid", False))
-        self.addParameter(ParameterRaster(self.D8_FLOW_DIR_GRID, "D8 Flow Direction Grid", False))
+        self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
-        self.addParameter(ParameterRaster(self.ACCUM_STREAM_SOURCE_GRID, "Input Contributing Area Grid", False))
-        self.addParameter(ParameterVector(self.OUTLETS_SHAPE, "Outlets Shapefile", ParameterVector.VECTOR_TYPE_POINT, False))
-        self.addParameter(ParameterNumber(self.MIN_TRESHOLD, "Minimum Threshold", 0, None, 5))
-        self.addParameter(ParameterNumber(self.MAX_THRESHOLD, "Maximum Threshold", 0, None, 500))
-        self.addParameter(ParameterNumber(self.TRESHOLD_NUM, "Number of Threshold Values", 0, None, 10))
-        self.addParameter(ParameterSelection(self.STEP_TYPE, "Spacing for Threshold Values", self.STEPS, 0))
-        self.addOutput(OutputFile(self.DROP_ANALYSIS_FILE, "D-Infinity Drop to Stream Grid"))
+        self.addParameter(ParameterRaster(self.STREAM_GRID, "Stream Raster Grid", False))
+        self.addParameter(ParameterRaster(self.WEIGHT_PATH_GRID, "Weight Path Grid", True))
+        self.addParameter(ParameterSelection(self.STAT_METHOD, "Statistical Method", self.STATISTICS, 2))
+        self.addParameter(ParameterSelection(self.DIST_METHOD, "Distance Method", self.DISTANCE, 1))
+        self.addParameter(ParameterBoolean(self.EDGE_CONTAM, "Check for edge contamination", True))
+
+        self.addOutput(OutputRaster(self.DIST_DOWN_GRID, "D-Infinity Drop to Stream Grid"))
 
     def processAlgorithm(self, progress):
         path = TauDEMUtils.taudemPath()
@@ -98,24 +103,23 @@ class DropAnalysis(GeoAlgorithm):
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
         commands.append(path + os.sep + self.cmdName)
-
-        commands.append("-ad8")
-        commands.append(self.getParameterValue(self.D8_CONTRIB_AREA_GRID))
-        commands.append("-p")
-        commands.append(self.getParameterValue(self.D8_FLOW_DIR_GRID))
+        commands.append("-ang")
+        commands.append(self.getParameterValue(self.DINF_FLOW_DIR_GRID))
         commands.append("-fel")
         commands.append(self.getParameterValue(self.PIT_FILLED_GRID))
-        commands.append("-ssa")
-        commands.append(self.getParameterValue(self.ACCUM_STREAM_SOURCE_GRID))
-        commands.append("-o")
-        commands.append(self.getParameterValue(self.OUTLETS_SHAPE))
-        commands.append("-par")
-        commands.append(str(self.getParameterValue(self.MIN_TRESHOLD)))
-        commands.append(str(self.getParameterValue(self.MAX_THRESHOLD)))
-        commands.append(str(self.getParameterValue(self.TRESHOLD_NUM)))
-        commands.append(str(self.getParameterValue(self.STEPS)))
-        commands.append("-drp")
-        commands.append(self.getOutputValue(self.DROP_ANALYSIS_FILE))
+        commands.append("-src")
+        commands.append(self.getParameterValue(self.STREAM_GRID))
+        wg = self.getParameterValue(self.WEIGHT_PATH_GRID)
+        if wg is not None:
+          commands.append("-wg")
+          commands.append(self.getParameterValue(self.WEIGHT_PATH_GRID))
+        commands.append("-m")
+        commands.append(str(self.STAT_DICT[self.getParameterValue(self.STAT_METHOD)]))
+        commands.append(str(self.DIST_DICT[self.getParameterValue(self.DIST_METHOD)]))
+        if str(self.getParameterValue(self.EDGE_CONTAM)).lower() == "false":
+            commands.append("-nc")
+        commands.append("-dd")
+        commands.append(self.getOutputValue(self.DIST_DOWN_GRID))
 
         loglines = []
         loglines.append("TauDEM execution command")

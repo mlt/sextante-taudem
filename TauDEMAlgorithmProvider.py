@@ -43,6 +43,8 @@ from sextante_taudem.peukerdouglas import PeukerDouglas
 from sextante_taudem.slopearea import SlopeArea
 from sextante_taudem.lengtharea import LengthArea
 from sextante_taudem.dropanalysis import DropAnalysis
+from sextante_taudem.dinfdistdown import DinfDistDown
+from sextante_taudem.dinfdistup import DinfDistUp
 
 class TauDEMAlgorithmProvider(AlgorithmProvider):
     def __init__(self):
@@ -84,3 +86,5 @@ class TauDEMAlgorithmProvider(AlgorithmProvider):
       self.preloadedAlgs.append(SlopeArea())
       self.preloadedAlgs.append(LengthArea())
       self.preloadedAlgs.append(DropAnalysis())
+      self.preloadedAlgs.append(DinfDistDown())
+      self.preloadedAlgs.append(DinfDistUp())
