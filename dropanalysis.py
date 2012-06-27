@@ -37,16 +37,11 @@ from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
 
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
 from sextante.parameters.ParameterVector import ParameterVector
-from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterString import ParameterString
 from sextante.parameters.ParameterSelection import ParameterSelection
 
-from sextante.outputs.OutputFactory import OutputFactory
-from sextante.outputs.OutputRaster import OutputRaster
 from sextante.outputs.OutputFile import OutputFile
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
@@ -80,7 +75,7 @@ class DropAnalysis(GeoAlgorithm):
         self.addParameter(ParameterRaster(self.D8_CONTRIB_AREA_GRID, "D8 Contributing Area Grid", False))
         self.addParameter(ParameterRaster(self.D8_FLOW_DIR_GRID, "D8 Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
-        self.addParameter(ParameterRaster(self.ACCUM_STREAM_SOURCE_GRID, "Input Contributing Area Grid", False))
+        self.addParameter(ParameterRaster(self.ACCUM_STREAM_SOURCE_GRID, "Contributing Area Grid", False))
         self.addParameter(ParameterVector(self.OUTLETS_SHAPE, "Outlets Shapefile", ParameterVector.VECTOR_TYPE_POINT, False))
         self.addParameter(ParameterNumber(self.MIN_TRESHOLD, "Minimum Threshold", 0, None, 5))
         self.addParameter(ParameterNumber(self.MAX_THRESHOLD, "Maximum Threshold", 0, None, 500))

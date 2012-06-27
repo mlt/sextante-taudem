@@ -45,12 +45,11 @@ from sextante.parameters.ParameterRaster import ParameterRaster
 from sextante.parameters.ParameterVector import ParameterVector
 from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterString import ParameterString
-#from sextante.parameters.ParameterSelection import ParameterSelection
 
 from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
 from sextante.outputs.OutputVector import OutputVector
+from sextante.outputs.OutputFile import OutputFile
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
@@ -113,12 +112,9 @@ class TauDEMAlgorithm(GeoAlgorithm):
             elif isinstance(param, ParameterBoolean):
                 if param.value and str(param.value).lower() == "false":
                     commands.append(param.name)
-                    #commands.append(str(param.value).lower())
             elif isinstance(param, ParameterString):
                 commands.append(param.name)
                 commands.append(str(param.value))
-
-        #print "COMMAND", commands
 
         for out in self.outputs:
             commands.append(out.name)

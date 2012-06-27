@@ -3,5 +3,5 @@ dinfflowdir
 Basic Grid Analysis tools
 ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-fel|Pit Filled Elevation Grid|False
-OutputRaster|-ang|Output D-Infinity Flow Directions Grid
-OutputRaster|-slp|Output D-Infinity Slope Grid
+OutputRaster|-ang|D-Infinity Flow Directions Grid
+OutputRaster|-slp|D-Infinity Slope Grid

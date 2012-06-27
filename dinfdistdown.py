@@ -37,16 +37,12 @@ from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
 
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
-from sextante.parameters.ParameterVector import ParameterVector
 from sextante.parameters.ParameterNumber import ParameterNumber
 from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterSelection import ParameterSelection
 
-from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
-from sextante.outputs.OutputFile import OutputFile
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 

@@ -7,4 +7,4 @@ ParameterRaster|-sa|Upslope Values Grid|False
 ParameterVector|-o|Outlets Shapefile|0|True
 ParameterBoolean|-nc|Check for edge contamination|True
 ParameterBoolean|-min|Use max upslope value|True
-OutputRaster|-ssa|Extereme Upslope Values Grid|
+OutputRaster|-ssa|Extereme Upslope Values Grid

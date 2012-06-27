@@ -37,14 +37,9 @@ from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
 
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
-from sextante.parameters.ParameterVector import ParameterVector
-from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterString import ParameterString
 
-from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
@@ -67,12 +62,12 @@ class SlopeArea(GeoAlgorithm):
         self.group = "Stream Network Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-        self.addParameter(ParameterRaster(self.SLOPE_GRID, "Input Slope Grid", False))
-        self.addParameter(ParameterRaster(self.AREA_GRID, "Input Contributing Area Grid", False))
+        self.addParameter(ParameterRaster(self.SLOPE_GRID, "Slope Grid", False))
+        self.addParameter(ParameterRaster(self.AREA_GRID, "Contributing Area Grid", False))
         self.addParameter(ParameterNumber(self.SLOPE_EXPONENT, "Slope Exponent", 0, None, 2))
         self.addParameter(ParameterNumber(self.AREA_EXPONENT, "Area Exponent", 0, None, 1))
 
-        self.addOutput(OutputRaster(self.SLOPE_AREA_GRID, "Output Slope Area Grid"))
+        self.addOutput(OutputRaster(self.SLOPE_AREA_GRID, "Slope Area Grid"))
 
     def processAlgorithm(self, progress):
         path = TauDEMUtils.taudemPath()

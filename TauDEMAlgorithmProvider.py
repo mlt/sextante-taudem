@@ -49,6 +49,7 @@ from sextante_taudem.gridnet import GridNet
 from sextante_taudem.dinftranslimaccum import DinfTransLimAccum
 
 class TauDEMAlgorithmProvider(AlgorithmProvider):
+
     def __init__(self):
         AlgorithmProvider.__init__(self)
         self.createAlgsList()
@@ -71,24 +72,27 @@ class TauDEMAlgorithmProvider(AlgorithmProvider):
         SextanteConfig.removeSetting(TauDEMUtils.TAUDEM_FOLDER)
 
     def _loadAlgorithms(self):
-      self.algs = self.preloadedAlgs
+        self.algs = self.preloadedAlgs
 
     def createAlgsList(self):
-      self.preloadedAlgs = []
-      folder = TauDEMUtils.taudemDescriptionPath()
-      for descriptionFile in os.listdir(folder):
-          try:
-              alg = TauDEMAlgorithm(os.path.join(folder, descriptionFile))
-              if alg.name.strip() != "":
-                  self.preloadedAlgs.append(alg)
-          except Exception:
-              SextanteLog.addToLog(SextanteLog.LOG_ERROR, "Could not open TauDEM algorithm: " + descriptionFile)
+        self.preloadedAlgs = []
+        folder = TauDEMUtils.taudemDescriptionPath()
+        for descriptionFile in os.listdir(folder):
+            if descriptionFile.endswith("txt"):
+                try:
+                    alg = TauDEMAlgorithm(os.path.join(folder, descriptionFile))
+                    if alg.name.strip() != "":
+                        self.preloadedAlgs.append(alg)
+                    else:
+                        SextanteLog.addToLog(SextanteLog.LOG_ERROR, "Could not open TauDEM algorithm: " + descriptionFile)
+                except Exception, e:
+                    SextanteLog.addToLog(SextanteLog.LOG_ERROR, "Could not open TauDEM algorithm: " + descriptionFile)
 
-      self.preloadedAlgs.append(PeukerDouglas())
-      self.preloadedAlgs.append(SlopeArea())
-      self.preloadedAlgs.append(LengthArea())
-      self.preloadedAlgs.append(DropAnalysis())
-      self.preloadedAlgs.append(DinfDistDown())
-      self.preloadedAlgs.append(DinfDistUp())
-      self.preloadedAlgs.append(GridNet())
-      self.preloadedAlgs.append(DinfTransLimAccum())
+        self.preloadedAlgs.append(PeukerDouglas())
+        self.preloadedAlgs.append(SlopeArea())
+        self.preloadedAlgs.append(LengthArea())
+        self.preloadedAlgs.append(DropAnalysis())
+        self.preloadedAlgs.append(DinfDistDown())
+        self.preloadedAlgs.append(DinfDistUp())
+        self.preloadedAlgs.append(GridNet())
+        self.preloadedAlgs.append(DinfTransLimAccum())

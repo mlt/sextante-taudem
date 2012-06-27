@@ -28,26 +28,26 @@
 #******************************************************************************
 
 def name():
-  return "TauDEM SEXTANTE Provider"
+    return "TauDEM SEXTANTE Provider"
 
 def description():
-  return "DEM tools for the extraction and analysis of hydrologic information"
+    return "DEM tools for the extraction and analysis of hydrologic information"
 
 def category():
-  return "Raster"
+    return "Raster"
 
 def version():
-  return "1.0.0"
+    return "1.0.0"
 
 def qgisMinimumVersion():
-  return "1.8.0"
+    return "1.8.0"
 
 def authorName():
-  return "Alexander Bruy"
+    return "Alexander Bruy"
 
 def icon():
-  return "icons/taudem.png"
+    return "icons/taudem.png"
 
-def classFactory( iface ):
-  from TauDEMProviderPlugin import TauDEMProviderPlugin
-  return TauDEMProviderPlugin()
+def classFactory(iface):
+    from TauDEMProviderPlugin import TauDEMProviderPlugin
+    return TauDEMProviderPlugin()

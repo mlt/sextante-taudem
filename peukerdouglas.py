@@ -37,14 +37,9 @@ from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
 
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
-from sextante.parameters.ParameterVector import ParameterVector
-from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterString import ParameterString
 
-from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
@@ -67,12 +62,12 @@ class PeukerDouglas(GeoAlgorithm):
         self.group = "Stream Network Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-        self.addParameter(ParameterRaster(self.ELEVATION_GRID, "Input Elevation Grid", False))
+        self.addParameter(ParameterRaster(self.ELEVATION_GRID, "Elevation Grid", False))
         self.addParameter(ParameterNumber(self.CENTER_WEIGHT, "Center Smoothing Weight", 0, None, 0.4))
         self.addParameter(ParameterNumber(self.SIDE_WEIGHT, "Side Smoothing Weight", 0, None, 0.1))
         self.addParameter(ParameterNumber(self.DIAGONAL_WEIGHT, "Diagonal Smoothing Weight", 0, None, 0.05))
 
-        self.addOutput(OutputRaster(self.STREAM_SOURCE_GRID, "Output Stream Source Grid"))
+        self.addOutput(OutputRaster(self.STREAM_SOURCE_GRID, "Stream Source Grid"))
 
     def processAlgorithm(self, progress):
         path = TauDEMUtils.taudemPath()

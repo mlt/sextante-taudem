@@ -2,5 +2,5 @@ Pit Remove
 pitremove
 Basic Grid Analysis tools
 ParameterNumber|-n|Number of Processes|1|99|2
-ParameterRaster|-z|Input Elevation Grid|False
-OutputRaster|-fel|Output Pit Removed Elevation Grid
+ParameterRaster|-z|Elevation Grid|False
+OutputRaster|-fel|Pit Removed Elevation Grid

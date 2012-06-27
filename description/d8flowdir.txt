@@ -3,5 +3,5 @@ d8flowdir
 Basic Grid Analysis tools
 ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-fel|Pit Filled Elevation Grid|False
-OutputRaster|-p|Output D8 Flow Direction Grid
-OutputRaster|-sd8|Output D8 Slope Grid
+OutputRaster|-p|D8 Flow Direction Grid
+OutputRaster|-sd8|D8 Slope Grid

@@ -37,14 +37,9 @@ from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
 
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
-from sextante.parameters.ParameterVector import ParameterVector
-from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterString import ParameterString
 
-from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
@@ -67,12 +62,12 @@ class LengthArea(GeoAlgorithm):
         self.group = "Stream Network Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-        self.addParameter(ParameterRaster(self.LENGTH_GRID, "Input Length Grid", False))
-        self.addParameter(ParameterRaster(self.CONTRIB_AREA_GRID, "Input Contributing Area Grid", False))
+        self.addParameter(ParameterRaster(self.LENGTH_GRID, "Length Grid", False))
+        self.addParameter(ParameterRaster(self.CONTRIB_AREA_GRID, "Contributing Area Grid", False))
         self.addParameter(ParameterNumber(self.THRESHOLD, "Threshold", 0, None, 0.03))
         self.addParameter(ParameterNumber(self.EXPONENT, "Exponent", 0, None, 1.3))
 
-        self.addOutput(OutputRaster(self.STREAM_SOURCE_GRID, "Output Slope Area Grid"))
+        self.addOutput(OutputRaster(self.STREAM_SOURCE_GRID, "Stream Source Grid"))
 
     def processAlgorithm(self, progress):
         path = TauDEMUtils.taudemPath()
