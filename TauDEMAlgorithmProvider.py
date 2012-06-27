@@ -47,6 +47,7 @@ from sextante_taudem.dinfdistdown import DinfDistDown
 from sextante_taudem.dinfdistup import DinfDistUp
 from sextante_taudem.gridnet import GridNet
 from sextante_taudem.dinftranslimaccum import DinfTransLimAccum
+from sextante_taudem.dinftranslimaccum2 import DinfTransLimAccum2
 
 class TauDEMAlgorithmProvider(AlgorithmProvider):
 
@@ -96,3 +97,4 @@ class TauDEMAlgorithmProvider(AlgorithmProvider):
         self.preloadedAlgs.append(DinfDistUp())
         self.preloadedAlgs.append(GridNet())
         self.preloadedAlgs.append(DinfTransLimAccum())
+        self.preloadedAlgs.append(DinfTransLimAccum2())
