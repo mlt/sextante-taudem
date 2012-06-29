@@ -7,9 +7,9 @@ qgisMinimumVersion = 1.8.0
 
 icon = icons/taudem.png
 
-authorName = Alexander Bruy
+authorName = Alexander Bruy (NextGIS)
 
-tags = raster, analysis, SEXTANTE
+tags = raster, analysis, SEXTANTE, hydrology
 
 homepage =
 tracker = http://hub.qgis.org/projects/sextante-taudem
