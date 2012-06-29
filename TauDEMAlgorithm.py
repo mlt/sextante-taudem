@@ -39,22 +39,17 @@ from sextante.core.SextanteLog import SextanteLog
 from sextante.core.SextanteUtils import SextanteUtils
 from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
-from sextante.core.QGisLayers import QGisLayers
-from sextante.core.LayerExporter import LayerExporter
 
-from sextante.parameters.ParameterTable import ParameterTable
-from sextante.parameters.ParameterMultipleInput import ParameterMultipleInput
+from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterRaster import ParameterRaster
 from sextante.parameters.ParameterVector import ParameterVector
 from sextante.parameters.ParameterBoolean import ParameterBoolean
-from sextante.parameters.ParameterFactory import ParameterFactory
 from sextante.parameters.ParameterNumber import ParameterNumber
-from sextante.parameters.ParameterSelection import ParameterSelection
 
-from sextante.outputs.OutputTable import OutputTable
+from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
 from sextante.outputs.OutputVector import OutputVector
-from sextante.outputs.OutputFactory import OutputFactory
+from sextante.outputs.OutputFile import OutputFile
 
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
@@ -66,7 +61,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
         self.defineCharacteristicsFromFile()
 
     def getCopy(self):
-        newone = SagaAlgorithm(self.descriptionFile)
+        newone = TauDEMAlgorithm(self.descriptionFile)
         newone.provider = self.provider
         return newone
 
@@ -101,29 +96,33 @@ class TauDEMAlgorithm(GeoAlgorithm):
             raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
 
         commands = []
-        commands.append(path + os.sep + self.cmdName)
+        commands.append("mpiexec")
 
         for param in self.parameters:
             if param.value == None or param.value == "":
                 continue
+            if isinstance(param, ParameterNumber):
+                commands.append(param.name)
+                commands.append(str(param.value))
+                if param.name == "-n":
+                    commands.append(path + os.sep + self.cmdName)
             if isinstance(param, (ParameterRaster, ParameterVector)):
                 commands.append(param.name)
                 commands.append(param.value)
             elif isinstance(param, ParameterBoolean):
-                if param.value:
+                if param.value and str(param.value).lower() == "false":
                     commands.append(param.name)
-                    commands.append(str(param.value).lower())
-            else:
+            elif isinstance(param, ParameterString):
                 commands.append(param.name)
                 commands.append(str(param.value))
 
         for out in self.outputs:
             commands.append(out.name)
-            commands.append(out.value);
+            commands.append(out.value)
 
         loglines = []
         loglines.append("TauDEM execution command")
         for line in commands:
             loglines.append(line)
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
-        TauDEMUtils.executeOtb(commands, progress)
+        TauDEMUtils.executeTauDEM(commands, progress)
