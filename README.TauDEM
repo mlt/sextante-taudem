@@ -1,0 +1,57 @@
+To use this plugin you need to install TauDEM command line tools.
+
+Windows
+----------
+Please visit TauDEM homepage for installation instructions and precompiled
+binaries for 32bit and 64bit systems. NOTE: you need TauDEM 5.0.6 executables,
+version 5.2 currently not supported
+
+TauDEM homepage: http://hydrology.usu.edu/taudem/taudem5.0/downloads.html
+
+Linux
+----------
+There are no packages for most Linux distribution, so you should compile
+TauDEM by yourself. As TauDEM uses MPICH2 first install it using your favorite
+package manager. Also TauDEM works fine with OpenMPI, so you can use it
+instead of MPICH2.
+
+Download TauDEM 5.0.6 source code and extract files in some folder
+
+TauDEM sources: http://hydrology.usu.edu/taudem/taudem5.0/TauDEM5PCsrc_506.zip
+
+Open linearpart.h file and add after line
+
+#include "mpi.h"
+
+new line with
+
+#include <stdint.h>
+
+so you'll get
+
+#include "mpi.h"
+#include <stdlib.h>
+
+Save changes and close file. Now open tiffIO.h, find line #include "stdint.h"
+and replace quots ("") with <>, so you'll get
+
+#include <stdint.h>
+
+Save changes and close file. Create build directory and cd into it
+
+mkdir build
+cd build
+
+Configure your build with command
+
+CXX=mpixcc cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..
+
+and then compile
+
+make
+
+Command
+
+sudo make install
+
+will install TauDEM into /usr/local/bin
