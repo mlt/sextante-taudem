@@ -37,6 +37,15 @@ from sextante.core.SextanteUtils import SextanteUtils
 class TauDEMUtils:
 
     TAUDEM_FOLDER = "TAUDEM_FOLDER"
+    MPIEXEC_FOLDER = "MPIEXEC_FOLDER"
+
+    @staticmethod
+    def mpiexecPath():
+        folder = SextanteConfig.getSetting(TauDEMUtils.MPIEXEC_FOLDER)
+        if folder == None:
+            folder = ""
+
+        return folder
 
     @staticmethod
     def taudemPath():

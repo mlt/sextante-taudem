@@ -84,15 +84,11 @@ class DropAnalysis(GeoAlgorithm):
         self.addOutput(OutputFile(self.DROP_ANALYSIS_FILE, "D-Infinity Drop to Stream Grid"))
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
-        commands.append(path + os.sep + self.cmdName)
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
 
         commands.append("-ad8")
         commands.append(self.getParameterValue(self.D8_CONTRIB_AREA_GRID))

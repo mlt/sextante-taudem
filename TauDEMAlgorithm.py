@@ -92,12 +92,8 @@ class TauDEMAlgorithm(GeoAlgorithm):
         lines.close()
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
         for param in self.parameters:
             if param.value == None or param.value == "":
@@ -106,7 +102,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
                 commands.append(param.name)
                 commands.append(str(param.value))
                 if param.name == "-n":
-                    commands.append(path + os.sep + self.cmdName)
+                    commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
             if isinstance(param, (ParameterRaster, ParameterVector)):
                 commands.append(param.name)
                 commands.append(param.value)

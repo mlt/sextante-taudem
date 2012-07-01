@@ -70,15 +70,11 @@ class SlopeArea(GeoAlgorithm):
         self.addOutput(OutputRaster(self.SLOPE_AREA_GRID, "Slope Area Grid"))
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
-        commands.append(path + os.sep + self.cmdName)
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-slp")
         commands.append(self.getParameterValue(self.SLOPE_GRID))
         commands.append("-sca")

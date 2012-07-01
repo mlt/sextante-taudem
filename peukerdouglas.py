@@ -70,15 +70,11 @@ class PeukerDouglas(GeoAlgorithm):
         self.addOutput(OutputRaster(self.STREAM_SOURCE_GRID, "Stream Source Grid"))
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
-        commands.append(path + os.sep + self.cmdName)
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-fel")
         commands.append(self.getParameterValue(self.ELEVATION_GRID))
         commands.append("-par")
