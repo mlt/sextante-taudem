@@ -45,6 +45,7 @@ from sextante.parameters.ParameterRaster import ParameterRaster
 from sextante.parameters.ParameterVector import ParameterVector
 from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterNumber import ParameterNumber
+from sextante.parameters.ParameterString import ParameterString
 
 from sextante.outputs.OutputFactory import OutputFactory
 from sextante.outputs.OutputRaster import OutputRaster
