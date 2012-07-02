@@ -78,7 +78,6 @@ class DinfDistDown(GeoAlgorithm):
         self.group = "Specialized Grid Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-
         self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
         self.addParameter(ParameterRaster(self.STREAM_GRID, "Stream Raster Grid", False))
@@ -92,6 +91,7 @@ class DinfDistDown(GeoAlgorithm):
     def processAlgorithm(self, progress):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))

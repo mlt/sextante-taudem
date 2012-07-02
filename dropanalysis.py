@@ -71,7 +71,6 @@ class DropAnalysis(GeoAlgorithm):
         self.group = "Stream Network Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-
         self.addParameter(ParameterRaster(self.D8_CONTRIB_AREA_GRID, "D8 Contributing Area Grid", False))
         self.addParameter(ParameterRaster(self.D8_FLOW_DIR_GRID, "D8 Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
@@ -84,12 +83,11 @@ class DropAnalysis(GeoAlgorithm):
         self.addOutput(OutputFile(self.DROP_ANALYSIS_FILE, "D-Infinity Drop to Stream Grid"))
 
     def processAlgorithm(self, progress):
-        commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
-
         commands.append("-ad8")
         commands.append(self.getParameterValue(self.D8_CONTRIB_AREA_GRID))
         commands.append("-p")

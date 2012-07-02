@@ -40,16 +40,16 @@ class TauDEMUtils:
     MPIEXEC_FOLDER = "MPIEXEC_FOLDER"
 
     @staticmethod
-    def mpiexecPath():
-        folder = SextanteConfig.getSetting(TauDEMUtils.MPIEXEC_FOLDER)
+    def taudemPath():
+        folder = SextanteConfig.getSetting(TauDEMUtils.TAUDEM_FOLDER)
         if folder == None:
             folder = ""
 
         return folder
 
     @staticmethod
-    def taudemPath():
-        folder = SextanteConfig.getSetting(TauDEMUtils.TAUDEM_FOLDER)
+    def mpiexecPath():
+        folder = SextanteConfig.getSetting(TauDEMUtils.MPIEXEC_FOLDER)
         if folder == None:
             folder = ""
 

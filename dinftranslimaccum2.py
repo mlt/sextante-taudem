@@ -68,7 +68,6 @@ class DinfTransLimAccum2(GeoAlgorithm):
         self.group = "Specialized Grid Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-
         self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.SUPPLY_GRID, "Supply Grid", False))
         self.addParameter(ParameterRaster(self.CAPACITY_GRID, "Transport Capacity Grid", False))
@@ -83,10 +82,10 @@ class DinfTransLimAccum2(GeoAlgorithm):
     def processAlgorithm(self, progress):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
-
         commands.append("-ang")
         commands.append(self.getParameterValue(self.DINF_FLOW_DIR_GRID))
         commands.append("-tsup")

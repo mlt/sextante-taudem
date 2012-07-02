@@ -72,6 +72,7 @@ class LengthArea(GeoAlgorithm):
     def processAlgorithm(self, progress):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
