@@ -78,7 +78,6 @@ class DinfDistUp(GeoAlgorithm):
         self.group = "Specialized Grid Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-
         self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
         self.addParameter(ParameterRaster(self.SLOPE_GRID, "Slope Grid", False))
@@ -90,15 +89,12 @@ class DinfDistUp(GeoAlgorithm):
         self.addOutput(OutputRaster(self.DIST_UP_GRID, "D-Infinity Distance Up"))
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
-        commands.append(path + os.sep + self.cmdName)
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-ang")
         commands.append(self.getParameterValue(self.DINF_FLOW_DIR_GRID))
         commands.append("-fel")
