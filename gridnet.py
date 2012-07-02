@@ -65,7 +65,6 @@ class GridNet(GeoAlgorithm):
         self.group = "Basic Grid Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-
         self.addParameter(ParameterRaster(self.D8_FLOW_DIR_GRID, "D8 Flow Direction Grid", False))
         self.addParameter(ParameterVector(self.OUTLETS_SHAPE, "Outlets Shapefile", ParameterVector.VECTOR_TYPE_POINT, True))
         self.addParameter(ParameterRaster(self.MASK_GRID, "Mask Grid", True))
@@ -76,16 +75,12 @@ class GridNet(GeoAlgorithm):
         self.addOutput(OutputRaster(self.STRAHLER_GRID, "Strahler Network Order Grid"))
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
-        commands.append(path + os.sep + self.cmdName)
-
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-p")
         commands.append(self.getParameterValue(self.D8_FLOW_DIR_GRID))
         param = self.getParameterValue(self.OUTLETS_SHAPE)

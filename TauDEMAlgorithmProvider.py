@@ -67,10 +67,12 @@ class TauDEMAlgorithmProvider(AlgorithmProvider):
     def initializeSettings(self):
         AlgorithmProvider.initializeSettings(self)
         SextanteConfig.addSetting(Setting(self.getDescription(), TauDEMUtils.TAUDEM_FOLDER, "TauDEM command line tools folder", TauDEMUtils.taudemPath()))
+        SextanteConfig.addSetting(Setting(self.getDescription(), TauDEMUtils.MPIEXEC_FOLDER, "MPICH2/OpenMPI bin directory", TauDEMUtils.mpiexecPath()))
 
     def unload(self):
         AlgorithmProvider.unload(self)
         SextanteConfig.removeSetting(TauDEMUtils.TAUDEM_FOLDER)
+        SextanteConfig.removeSetting(TauDEMUtils.MPIEXEC_FOLDER)
 
     def _loadAlgorithms(self):
         self.algs = self.preloadedAlgs

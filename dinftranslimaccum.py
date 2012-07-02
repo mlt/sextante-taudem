@@ -68,29 +68,22 @@ class DinfTransLimAccum(GeoAlgorithm):
         self.group = "Specialized Grid Analysis tools"
 
         self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
-
         self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.SUPPLY_GRID, "Supply Grid", False))
         self.addParameter(ParameterRaster(self.CAPACITY_GRID, "Transport Capacity Grid", False))
-        #self.addParameter(ParameterRaster(self.IN_CONCENTR_GRID, "Input Concentration Grid", True))
         self.addParameter(ParameterVector(self.OUTLETS_SHAPE, "Outlets Shapefile", ParameterVector.VECTOR_TYPE_POINT, True))
         self.addParameter(ParameterBoolean(self.EDGE_CONTAM, "Check for edge contamination", True))
 
         self.addOutput(OutputRaster(self.TRANSP_LIM_ACCUM_GRID, "Transport Limited Accumulation Grid"))
         self.addOutput(OutputRaster(self.DEPOSITION_GRID, "Deposition Grid"))
-        #self.addOutput(OutputRaster(self.OUT_CONCENTR_GRID, "Output Concentration Grid"))
 
     def processAlgorithm(self, progress):
-        path = TauDEMUtils.taudemPath()
-        if path == "":
-            raise GeoAlgorithmExecutionException("TauDEM folder is not configured.\nPlease configure it before running TauDEM algorithms.")
-
         commands = []
-        commands.append("mpiexec")
+        commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
+
         commands.append("-n")
         commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
-        commands.append(path + os.sep + self.cmdName)
-
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-ang")
         commands.append(self.getParameterValue(self.DINF_FLOW_DIR_GRID))
         commands.append("-tsup")
