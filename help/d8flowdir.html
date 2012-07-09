@@ -15,10 +15,17 @@ using the method of Garbrecht and Martz (1997). The D8 flow direction
 algorithm may be applied to a DEM that has not had its pits filled, but
 it will then result in &quot;no data&quot; values for flow direction
 and slope at the lowest point of each pit.</div>
-<div class='description'>D8 Flow Direction Coding: 1&nbsp;&mdash; East,
-2&nbsp;&mdash; Northeast, 3&nbsp;&mdash; North, 4&nbsp;&mdash; Northwest,
-5&nbsp;&mdash; West, 6&nbsp;&mdash; Southwest, 7&nbsp;&mdash; South,
-8&nbsp;&mdash; Southeast.</div>
+<div class='description'>D8 Flow Direction Coding:</div>
+<ul>
+  <li>1&nbsp;&mdash; East</li>
+  <li>2&nbsp;&mdash; Northeast</li>
+  <li>3&nbsp;&mdash; North</li>
+  <li>4&nbsp;&mdash; Northwest</li>
+  <li>5&nbsp;&mdash; West</li>
+  <li>6&nbsp;&mdash; Southwest</li>
+  <li>7&nbsp;&mdash; South</li>
+  <li>8&nbsp;&mdash; Southeast</li>
+</ul>
 <p align="center"><img src="img/d8index.gif"></img></p>
 <div class='description'>The flow direction routing across flat areas is
 performed according to the method described by Garbrecht, J. and L. W.
@@ -32,9 +39,21 @@ in Raster Digital Elevation Models&quot;, Journal of Hydrology, 193: 204-213.</d
     number of MPI parallel processes that will be spawned to evaluate each
     of the stripes.</dd>
   <dt>Pit Filled Elevation Grid <div class='type'>Raster Grid</div></dt>
-    <dd>A grid of elevation values. This is usually the output of the
-    &quot;Pit Remove&quot; tool, in which case it is elevations with pits
-    removed.</dd>
+    <dd>A grid of elevation values. This is usually the output of the &quot;Pit
+    Remove&quot; tool, in which case it is elevations with pits removed.
+    Pits are low elevation areas in digital elevation models (DEMs) that
+    are completely surrounded by higher terrain. They are generally taken
+    to be artifacts of the digitation process that interfere with the
+    processing of flow across DEMs. So they are removed by raising their
+    elevation to the point where they just drain off the domain. This step
+    is not essential if you have reason to believe that the pits in your
+    DEM are real. If a few pits actually exist and so should not be removed,
+    while at the same time others are believed to be artifacts that need
+    to be removed, the actual pits should have &quot;no data&quot; elevation
+    values inserted at their lowest point. &quot;No data&quot; values serve
+    to define edges of the domain in the flow field, and elevations are
+    only raised to where flow is off an edge, so an internal &quot;no data&quot;
+    value will stop a pit from being removed, if necessary.</dd>
 </dl>
 
 <h2>Outputs</h2>

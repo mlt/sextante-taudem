@@ -36,12 +36,13 @@ along a flow path, but I can conceive of cases where flow paths bend back
 on themselves where this would not be the case for straight line angles.</div>
 <div class='description'>The D-infinity multiple flow direction field assigns
 flow from each grid cell to multiple downslope neighbors using proportions
-(Pik) that vary between 0 and 1 and sum to 1 for all flows out of a grid
-cell. It may be desirable to specify a threshold T that this proportion
-has to exceed before a grid cell is counted as flowing to a downslope grid
-cell, e.g. Pik > T (=0.2 say) to avoid dispersion to grid cells that get
-very little flow. T will be specified as a user input. If all upslope grid
-cells are to be used T may be input as 0.</div>
+(<tt>P<sub>ik</sub></tt>) that vary between 0 and 1 and sum to 1 for all
+flows out of a grid cell. It may be desirable to specify a threshold <tt>T</tt>
+that this proportion has to exceed before a grid cell is counted as flowing
+to a downslope grid cell, e.g. <tt>P<sub>ik</sub> > T</tt> (=0.2 say) to
+avoid dispersion to grid cells that get very little flow. <tt>T</tt> will
+be specified as a user input. If all upslope grid cells are to be used
+<tt>T</tt> may be input as 0.</div>
 <div class='description'>Avalanche source sites are to be input as a short
 integer grid (name suffix *ass, e.g. demass) comprised of positive values
 where avalanches may be triggered and 0 values elsewhere.</div>
@@ -86,14 +87,14 @@ where avalanches may be triggered and 0 values elsewhere.</div>
     for determining flow direction. The D-infinity multiple flow direction
     method often causes very small amounts of flow to be dispersed to some
     downslope cells that might overstate the affected area, so a threshold
-    proportion can be set to avoid this excess dispersion. Default 0.2.</dd>
+    proportion can be set to avoid this excess dispersion. Default <strong>0.2</strong>.</dd>
   <dt>Alpha Angle Threshold <div class='type'>Double</div></dt>
     <dd>This value is the threshold angle, called the Alpha Angle, that
     is used to determine which of the cells downslope from the source cells
     are in the affected area. Only the cells downslope from each source
     area cell, up to the point where the slope from the source to the
     affected area is less than a threshold angle are in the affected area.
-    Default 18.</dd>
+    Default <strong>18</strong>.</dd>
   <dt>Measure distance along flow path <div class='type'>Boolean</div></dt>
     <dd>This option selects the method used to measure the distance used
     to calculate the slope angle. If option is &quot;True&quot; then measure

@@ -42,7 +42,8 @@ are in the domain to be evaluated.</div>
   <dt>D8 Flow Direction Grid <div class='type'>Raster Grid</div></dt>
     <dd>A grid of D8 flow directions which are defined, for each cell, as
     the direction of the one of its eight adjacent or diagonal neighbors
-    with the steepest downward slope.</dd>
+    with the steepest downward slope. This grid can be obtained as the
+    output of the &quot;D8 Flow Directions&quot; tool.</dd>
   <dt>Outlets Shapefile <div class='type'>Point Shapefile (optional)</div></dt>
     <dd>A point shapefile defining the outlets of interest. If this input
     file is used, only the cells upslope of these outlet cells are considered
@@ -57,7 +58,7 @@ are in the domain to be evaluated.</div>
   <dt>Mask Threshold Value <div class='type'>Double (optional)</div></dt>
     <dd>This input parameter is used in the calculation mask grid value
     >= mask threshold to determine if the grid cell is in the domain to
-    be analyzed. Default value is 100.</dd>
+    be analyzed. Default value is <strong>100</strong>.</dd>
 </dl>
 
 <h2>Outputs</h2>

@@ -8,35 +8,40 @@ and deposition of a substance (e.g. sediment) that may be limited by both
 supply and the capacity of the flow field to transport it. This function
 accumulates substance flux (e.g. sediment transport) subject to the rule
 that transport out of any grid cell is the minimum between supply and transport
-capacity, Tcap. The total supply at a grid cell is calculated as the sum
-of the transport in from upslope grid cells, Tin, plus the local supply
-contribution, E (e.g. erosion). This function also outputs deposition, D,
-calculated as total supply minus actual transport.</div>
+capacity, <tt>T<sub>cap</sub></tt>. The total supply at a grid cell is
+calculated as the sum of the transport in from upslope grid cells, <tt>T<sub>in</sub></tt>,
+plus the local supply contribution, <tt>E</tt> (e.g. erosion). This function
+also outputs deposition, <tt>D</tt>, calculated as total supply minus actual
+transport.</div>
 <p align="center"><img src="img/tlaeqn.gif"></img></p>
-<div class='description'>Here (E) is the supply. (Tout) at each grid cell
-becomes (Tin) for downslope grid cells and is reported as Transport limited
-accumulation (tla). D is deposition (tdep). The function provides the option
-to evaluate concentration of a compound (contaminant) adhered to the transported
+<div class='description'>Here <tt>E</tt> is the supply. <tt>T<sub>out</sub></tt>
+at each grid cell becomes <tt>T<sub>in</sub></tt> for downslope grid cells
+and is reported as Transport limited accumulation (<tt>tla</tt>). <tt>D</tt>
+is deposition (<tt>tdep</tt>). The function provides the option to evaluate
+concentration of a compound (contaminant) adhered to the transported
 substance. This is evaluated as follows:</div>
 <p align="center"><img src="img/tlaceqn1.gif"></img></p>
-<div class='description'>Where (Lin) is the total incoming compound loading
-and (Cin) and (Tin) refer to the Concentration and Transport entering from
-each upslope grid cell.</div>
+<div class='description'>Where <tt>L<sub>in</sub></tt> is the total incoming
+compound loading and <tt>C<sub>in</sub></tt> and <tt>T<sub>in</sub></tt>
+refer to the Concentration and Transport entering from each upslope grid
+cell.</div>
 <p align="center"><img src="img/tlaceqn2.gif"></img></p>
 <div class='description'>If</div>
 <p align="center"><img src="img/tlaceqn3.gif"></img></p>
 <div class='description'>else</div>
 <p align="center"><img src="img/tlaceqn4.gif"></img></p>
-<div class='description'>where (Cs) is the concentration supplied locally
-and the difference in the second term on the right represents the additional
-supply from the local grid cell. Then,</div>
+<div class='description'>where <tt>C<sub>s</sub></tt> is the concentration
+supplied locally and the difference in the second term on the right represents
+the additional supply from the local grid cell. Then,</div>
 <p align="center"><img src="img/tlaceqn5.gif"></img></p>
-<div class='description'>(Cout) at each grid cell comprises is the concentration
-grid output from this function. If the outlets shapefile is used the tool
-only evaluates that part of the domain that contributes flow to the locations
-given by the shapefile. Transport limited accumulation is useful for modeling
-erosion and sediment delivery, including the spatial dependence of sediment
-delivery ratio and contaminant that adheres to sediment.</div>
+<div class='description'><tt>C<sub>out</sub></tt> at each grid cell comprises
+is the concentration grid output from this function.</div>
+<div class='description'>If the outlets shapefile is used the tool only
+evaluates that part of the domain that contributes flow to the locations
+given by the shapefile.</div>
+<div class='description'>Transport limited accumulation is useful for
+modeling erosion and sediment delivery, including the spatial dependence
+of sediment delivery ratio and contaminant that adheres to sediment.</div>
 
 <h2>Parameters</h2>
 <dl class='parameters'>

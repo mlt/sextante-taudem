@@ -13,11 +13,11 @@ downslope recursion, examining grid cells downslope from each grid cell,
 so that the map produced identifies the area upslope where flow through
 the destination zone originates, or the area it depends on, for its flow.</div>
 <div class='description'>The figures below illustrate the amount each
-source point in the domain x (blue) contributes to the destination point
-or zone y (red). If the indicator weighted contributing area function is
-denoted I(y;x) giving the weighted contribution using a unit value (1)
-from specific grid cells y to grid cells x, then the upslope dependence
-is: D(x;y) = I(y;x).</div>
+source point in the domain <tt>x</tt> (blue) contributes to the destination
+point or zone <tt>y</tt> (red). If the indicator weighted contributing area
+function is denoted <tt>I(y; x)</tt> giving the weighted contribution using
+a unit value (1) from specific grid cells <tt>y</tt> to grid cells <tt>x</tt>,
+then the upslope dependence is: <tt>D(x; y) = I(y; x)</tt>.</div>
 <p align="center"><img src="img/dependence.gif"></img></p>
 <div class='description'>This is useful for example to track where flow
 or a flow related substance or contaminant that enters a destination area
@@ -33,7 +33,8 @@ may come from.</div>
     <dd>A grid giving flow direction by the D-Infinity method where the
     flow direction angle is determined as the direction of the steepest
     downward slope on the eight triangular facets formed in a 3 x 3 grid
-    cell window centered on the grid cell of interest.</dd>
+    cell window centered on the grid cell of interest. This grid can be
+    produced using the &quot;D-Infinity Flow Direction&quot; tool.</dd>
   <dt>Destination Grid <div class='type'>Raster Grid</div></dt>
     <dd>A grid that encodes the destination zone that may receive flow from
     upslope. This grid must be 1 inside the zone y and 0 over the rest of

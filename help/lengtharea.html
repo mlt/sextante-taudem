@@ -4,13 +4,14 @@
 <h1 class='module'>Length Area Stream Source</h1>
 <div class='author'>(c) 2010 by David G. Tarboton</div>
 <div class='description'>Creates an indicator grid (1, 0) that evaluates
-A >= (M)(L<sup>y</sup>) based on upslope path length, D8 contributing area
+<tt>A >= (M)(L<sup>y</sup>)</tt> based on upslope path length, D8 contributing area
 grid inputs, and parameters <tt>M</tt> and <tt>y</tt>. This grid indicates
 likely stream source grid cells. This is an experimental method with
-theoretical basis in Hack's law which states that for streams L ~ A<sup>0.6</sup>.
-However for hillslopes with parallel flow L ~ A. So a transition from
-hillslopes to streams may be represented by L ~ A<sup>0.8</sup> suggesting
-identifying grid cells as stream cells if A > M (L<sup>(1/0.8)</sup>).</div>
+theoretical basis in Hack's law which states that for streams <tt>L ~ A<sup>0.6</sup></tt>.
+However for hillslopes with parallel flow <tt>L ~ A</tt>. So a transition
+from hillslopes to streams may be represented by <tt>L ~ A<sup>0.8</sup></tt>
+suggesting identifying grid cells as stream cells if
+<tt>A > M (L<sup>(1/0.8)</sup>)</tt>.</div>
 
 <h2>Parameters</h2>
 <dl class='parameters'>
@@ -33,27 +34,27 @@ identifying grid cells as stream cells if A > M (L<sup>(1/0.8)</sup>).</div>
     that drain to it, measured as a number of cells. This grid is typically
     obtained as the output of the &quot;D8 Contributing Area&quot; tool.
     In this tool, it is the contributing area (<tt>A</tt>) that is compared
-    in the formula A > (M)(L<sup>y</sup>) to determine the transition to
-    a stream.</dd>
+    in the formula <tt>A > (M)(L<sup>y</sup>)</tt> to determine the transition
+    to a stream.</dd>
   <dt>Threshold <div class='type'>Double</div></dt>
     <dd>The multiplier threshold (<tt>M</tt>) parameter which is used in
-    the formula: A > (M)(L<sup>y</sup>), to identify the beginning of
-    streams. Default value 0.03.</dd>
+    the formula: <tt>A > (M)(L<sup>y</sup>)</tt>, to identify the beginning
+    of streams. Default value <strong>0.03</strong>.</dd>
   <dt>Exponent <div class='type'>Double</div></dt>
     <dd>The exponent (<tt>y</tt>) parameter which is used in the formula:
     A > (M)(L<sup>y</sup>), to identify the beginning of streams. In
-    branching systems, Hack's law suggests that L = 1/M A<sup>(1/y)</sup>
-    with 1/y = 0.6 (or 0.56) (<tt>y</tt> about 1.7). In parallel flow systems
-    <tt>L</tt> is proportional to <tt>A</tt> (<tt>y</tt> about 1). This
-    method tries to identify the transition between these two paradigms
-    by using an exponent <tt>y</tt> somewhere inbetween (<tt>y</tt> about 1.3).
-    Default value 1.3.</dd>
+    branching systems, Hack's law suggests that <tt>L = 1/M A<sup>(1/y)</sup></tt>
+    with <tt>1/y = 0.6</tt> (or 0.56) (<tt>y</tt> about 1.7). In parallel
+    flow systems <tt>L</tt> is proportional to <tt>A</tt> (<tt>y</tt> about 1).
+    This method tries to identify the transition between these two paradigms
+    by using an exponent <tt>y</tt> somewhere in between (<tt>y</tt> about 1.3).
+    Default value <strong>1.3</strong>.</dd>
 </dl>
 
 <h2>Outputs</h2>
 <dl class='parameters'>
   <dt>Slope Area Grid <div class='type'>Raster Grid</div></dt>
-    <dd>A grid of slope-area values = (S<sup>m</sup>)(A<sup>n</sup>)
+    <dd>A grid of slope-area values = <tt>(S<sup>m</sup>)(A<sup>n</sup>)</tt>
     calculated from the slope grid, specific catchment area grid, <tt>m</tt>
     slope exponent parameter, and <tt>n</tt> area exponent parameter.</dd>
 </dl>
