@@ -47,7 +47,6 @@ from sextante.outputs.OutputRaster import OutputRaster
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class DinfDistUp(GeoAlgorithm):
-    PROCESS_NUMBER = "PROCESS_NUMBER"
     DINF_FLOW_DIR_GRID = "DINF_FLOW_DIR_GRID"
     PIT_FILLED_GRID = "PIT_FILLED_GRID"
     SLOPE_GRID = "SLOPE_GRID"
@@ -77,7 +76,6 @@ class DinfDistUp(GeoAlgorithm):
         self.cmdName = "dinfdistup"
         self.group = "Specialized Grid Analysis tools"
 
-        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
         self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
         self.addParameter(ParameterRaster(self.SLOPE_GRID, "Slope Grid", False))
@@ -92,8 +90,12 @@ class DinfDistUp(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease supply correct number before running TauDEM algorithms.")
+
         commands.append("-n")
-        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(processNum)
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-ang")
         commands.append(self.getParameterValue(self.DINF_FLOW_DIR_GRID))

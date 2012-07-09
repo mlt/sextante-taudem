@@ -1,7 +1,6 @@
 D8 Distance To Streams
 d8hdisttostrm
 Specialized Grid Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-p|D8 Flow Direction Grid|False
 ParameterRaster|-src|Stream Raster Grid|False
 ParameterNumber|-thresh|Threshold|1|500|50

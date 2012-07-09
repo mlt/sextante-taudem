@@ -1,7 +1,6 @@
 D-Infinity Concentration Limited Accumulation
 dinfconclimaccum
 Specialized Grid Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-ang|D-Infinity Flow Direction Grid|False
 ParameterRaster|-dg|Disturbance Indicator Grid|False
 ParameterRaster|-dm|Decay Multiplier Grid|False

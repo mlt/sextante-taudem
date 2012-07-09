@@ -46,7 +46,6 @@ from sextante.outputs.OutputRaster import OutputRaster
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class GridNet(GeoAlgorithm):
-    PROCESS_NUMBER = "PROCESS_NUMBER"
     D8_FLOW_DIR_GRID = "D8_FLOW_DIR_GRID"
     OUTLETS_SHAPE = "OUTLETS_SHAPE"
     MASK_GRID = "MASK_GRID"
@@ -64,7 +63,6 @@ class GridNet(GeoAlgorithm):
         self.cmdName = "gridnet"
         self.group = "Basic Grid Analysis tools"
 
-        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
         self.addParameter(ParameterRaster(self.D8_FLOW_DIR_GRID, "D8 Flow Direction Grid", False))
         self.addParameter(ParameterVector(self.OUTLETS_SHAPE, "Outlets Shapefile", ParameterVector.VECTOR_TYPE_POINT, True))
         self.addParameter(ParameterRaster(self.MASK_GRID, "Mask Grid", True))
@@ -78,8 +76,12 @@ class GridNet(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease supply correct number before running TauDEM algorithms.")
+
         commands.append("-n")
-        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(processNum)
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-p")
         commands.append(self.getParameterValue(self.D8_FLOW_DIR_GRID))

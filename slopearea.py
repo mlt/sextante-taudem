@@ -45,7 +45,6 @@ from sextante.outputs.OutputRaster import OutputRaster
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class SlopeArea(GeoAlgorithm):
-    PROCESS_NUMBER = "PROCESS_NUMBER"
     SLOPE_GRID = "SLOPE_GRID"
     AREA_GRID = "AREA_GRID"
     SLOPE_EXPONENT = "SLOPE_EXPONENT"
@@ -61,7 +60,6 @@ class SlopeArea(GeoAlgorithm):
         self.cmdName = "slopearea"
         self.group = "Stream Network Analysis tools"
 
-        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
         self.addParameter(ParameterRaster(self.SLOPE_GRID, "Slope Grid", False))
         self.addParameter(ParameterRaster(self.AREA_GRID, "Contributing Area Grid", False))
         self.addParameter(ParameterNumber(self.SLOPE_EXPONENT, "Slope Exponent", 0, None, 2))
@@ -73,8 +71,12 @@ class SlopeArea(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease supply correct number before running TauDEM algorithms.")
+
         commands.append("-n")
-        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(processNum)
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-slp")
         commands.append(self.getParameterValue(self.SLOPE_GRID))
