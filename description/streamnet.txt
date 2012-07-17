@@ -1,7 +1,6 @@
 Stream Reach and Watershed
 streamnet
 Stream Network Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-fel|Pit Filled Elevation Grid|False
 ParameterRaster|-p|D8 Flow Direction Grid|False
 ParameterRaster|-ad8|D8 Drainage Area|False

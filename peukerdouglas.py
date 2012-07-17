@@ -45,7 +45,6 @@ from sextante.outputs.OutputRaster import OutputRaster
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class PeukerDouglas(GeoAlgorithm):
-    PROCESS_NUMBER = "PROCESS_NUMBER"
     ELEVATION_GRID = "ELEVATION_GRID"
     CENTER_WEIGHT = "CENTER_WEIGHT"
     SIDE_WEIGHT = "SIDE_WEIGHT"
@@ -61,7 +60,6 @@ class PeukerDouglas(GeoAlgorithm):
         self.cmdName = "peukerdouglas"
         self.group = "Stream Network Analysis tools"
 
-        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
         self.addParameter(ParameterRaster(self.ELEVATION_GRID, "Elevation Grid", False))
         self.addParameter(ParameterNumber(self.CENTER_WEIGHT, "Center Smoothing Weight", 0, None, 0.4))
         self.addParameter(ParameterNumber(self.SIDE_WEIGHT, "Side Smoothing Weight", 0, None, 0.1))
@@ -73,8 +71,12 @@ class PeukerDouglas(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
+
         commands.append("-n")
-        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(processNum)
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-fel")
         commands.append(self.getParameterValue(self.ELEVATION_GRID))

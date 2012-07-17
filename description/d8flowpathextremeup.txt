@@ -1,7 +1,6 @@
 D8 Extreme Upslope Value
 d8flowpathextremeup
 Stream Network Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-p|D8 Flow Directions Grid|False
 ParameterRaster|-sa|Upslope Values Grid|False
 ParameterVector|-o|Outlets Shapefile|0|True

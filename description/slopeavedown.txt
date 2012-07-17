@@ -1,7 +1,6 @@
 Slope Average Down
 slopeavedown
 Specialized Grid Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-p|D8 Flow Direction Grid|False
 ParameterRaster|-fel|Pit Filled Elevation Grid|False
 ParameterNumber|-dn|Downslope Distance|1|500|50
