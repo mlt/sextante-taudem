@@ -91,7 +91,7 @@ class DinfDistDown(GeoAlgorithm):
 
         processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
         if processNum <= 0:
-          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease supply correct number before running TauDEM algorithms.")
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
 
         commands.append("-n")
         commands.append(processNum)
