@@ -45,7 +45,6 @@ from sextante.outputs.OutputRaster import OutputRaster
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class LengthArea(GeoAlgorithm):
-    PROCESS_NUMBER = "PROCESS_NUMBER"
     LENGTH_GRID = "LENGTH_GRID"
     CONTRIB_AREA_GRID = "CONTRIB_AREA_GRID"
     THRESHOLD = "THRESHOLD"
@@ -61,7 +60,6 @@ class LengthArea(GeoAlgorithm):
         self.cmdName = "lengtharea"
         self.group = "Stream Network Analysis tools"
 
-        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
         self.addParameter(ParameterRaster(self.LENGTH_GRID, "Length Grid", False))
         self.addParameter(ParameterRaster(self.CONTRIB_AREA_GRID, "Contributing Area Grid", False))
         self.addParameter(ParameterNumber(self.THRESHOLD, "Threshold", 0, None, 0.03))
@@ -73,8 +71,12 @@ class LengthArea(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
+
         commands.append("-n")
-        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(processNum)
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-plen")
         commands.append(self.getParameterValue(self.LENGTH_GRID))
@@ -93,3 +95,6 @@ class LengthArea(GeoAlgorithm):
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
 
         TauDEMUtils.executeTauDEM(commands, progress)
+
+    def helpFile(self):
+        return os.path.join(os.path.dirname(__file__), "help", self.cmdName + ".html")

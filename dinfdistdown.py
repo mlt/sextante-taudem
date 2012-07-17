@@ -38,7 +38,6 @@ from sextante.core.SextanteConfig import SextanteConfig
 from sextante.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
 
 from sextante.parameters.ParameterRaster import ParameterRaster
-from sextante.parameters.ParameterNumber import ParameterNumber
 from sextante.parameters.ParameterBoolean import ParameterBoolean
 from sextante.parameters.ParameterSelection import ParameterSelection
 
@@ -47,7 +46,6 @@ from sextante.outputs.OutputRaster import OutputRaster
 from sextante_taudem.TauDEMUtils import TauDEMUtils
 
 class DinfDistDown(GeoAlgorithm):
-    PROCESS_NUMBER = "PROCESS_NUMBER"
     DINF_FLOW_DIR_GRID = "DINF_FLOW_DIR_GRID"
     PIT_FILLED_GRID = "PIT_FILLED_GRID"
     STREAM_GRID = "STREAM_GRID"
@@ -77,7 +75,6 @@ class DinfDistDown(GeoAlgorithm):
         self.cmdName = "dinfdistdown"
         self.group = "Specialized Grid Analysis tools"
 
-        self.addParameter(ParameterNumber(self.PROCESS_NUMBER, "Number of Processes", 1, 99, 2))
         self.addParameter(ParameterRaster(self.DINF_FLOW_DIR_GRID, "D-Infinity Flow Direction Grid", False))
         self.addParameter(ParameterRaster(self.PIT_FILLED_GRID, "Pit Filled Elevation Grid", False))
         self.addParameter(ParameterRaster(self.STREAM_GRID, "Stream Raster Grid", False))
@@ -92,8 +89,12 @@ class DinfDistDown(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
+
         commands.append("-n")
-        commands.append(str(self.getParameterValue(self.PROCESS_NUMBER)))
+        commands.append(processNum)
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-ang")
         commands.append(self.getParameterValue(self.DINF_FLOW_DIR_GRID))
@@ -120,3 +121,6 @@ class DinfDistDown(GeoAlgorithm):
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
 
         TauDEMUtils.executeTauDEM(commands, progress)
+
+    def helpFile(self):
+        return os.path.join(os.path.dirname(__file__), "help", self.cmdName + ".html")

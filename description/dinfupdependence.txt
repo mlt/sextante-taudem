@@ -1,7 +1,6 @@
 D-Infinity Upslope Dependence
 dinfupdependence
 Specialized Grid Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-ang|D-Infinity Flow Direction Grid|False
 ParameterRaster|-dg|Destination Grid|False
 OutputRaster|-dep|Output Upslope Dependence Grid

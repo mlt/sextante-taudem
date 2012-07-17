@@ -38,6 +38,7 @@ class TauDEMUtils:
 
     TAUDEM_FOLDER = "TAUDEM_FOLDER"
     MPIEXEC_FOLDER = "MPIEXEC_FOLDER"
+    MPI_PROCESSES = "MPI_PROCESSES"
 
     @staticmethod
     def taudemPath():
