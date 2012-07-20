@@ -100,7 +100,7 @@ class TauDEMAlgorithm(GeoAlgorithm):
           raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
 
         commands.append("-n")
-        commands.append(processNum)
+        commands.append(str(processNum))
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
 
         for param in self.parameters:

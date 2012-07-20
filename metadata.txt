@@ -2,7 +2,7 @@
 name = TauDEM SEXTANTE Provider
 description = DEM tools for the extraction and analysis of hydrologic information
 category = Raster
-version = 1.1.0
+version = 1.1.1
 qgisMinimumVersion = 1.8.0
 
 icon = icons/taudem.png

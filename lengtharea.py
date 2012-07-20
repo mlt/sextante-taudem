@@ -76,7 +76,7 @@ class LengthArea(GeoAlgorithm):
           raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
 
         commands.append("-n")
-        commands.append(processNum)
+        commands.append(str(processNum))
         commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
         commands.append("-plen")
         commands.append(self.getParameterValue(self.LENGTH_GRID))
