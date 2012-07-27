@@ -1,7 +1,6 @@
 D-Infinity Decaying Accumulation
 dinfdecayaccum
 Specialized Grid Analysis tools
-ParameterNumber|-n|Number of Processes|1|99|2
 ParameterRaster|-ang|D-Infinity Flow Direction Grid|False
 ParameterRaster|-dm|Decay Multiplier Grid|False
 ParameterRaster|-wg|Weight Grid|True

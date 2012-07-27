@@ -96,14 +96,20 @@ class TauDEMAlgorithm(GeoAlgorithm):
         commands = []
         commands.append(os.path.join(TauDEMUtils.mpiexecPath(), "mpiexec"))
 
+        processNum = SextanteConfig.getSetting(TauDEMUtils.MPI_PROCESSES)
+        if processNum <= 0:
+          raise GeoAlgorithmExecutionException("Wrong number of MPI processes used.\nPlease set correct number before running TauDEM algorithms.")
+
+        commands.append("-n")
+        commands.append(str(processNum))
+        commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
+
         for param in self.parameters:
             if param.value == None or param.value == "":
                 continue
             if isinstance(param, ParameterNumber):
                 commands.append(param.name)
                 commands.append(str(param.value))
-                if param.name == "-n":
-                    commands.append(os.path.join(TauDEMUtils.taudemPath(), self.cmdName))
             if isinstance(param, (ParameterRaster, ParameterVector)):
                 commands.append(param.name)
                 commands.append(param.value)
@@ -124,3 +130,6 @@ class TauDEMAlgorithm(GeoAlgorithm):
             loglines.append(line)
         SextanteLog.addToLog(SextanteLog.LOG_INFO, loglines)
         TauDEMUtils.executeTauDEM(commands, progress)
+
+    def helpFile(self):
+        return os.path.join(os.path.dirname(__file__), "help", self.cmdName + ".html")
